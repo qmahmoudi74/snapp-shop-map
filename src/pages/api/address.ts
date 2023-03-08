@@ -1,6 +1,8 @@
 import { faker } from "@faker-js/faker";
 import type { NextApiHandler } from "next";
 
+faker.locale = "fa";
+
 type City = string;
 type Street = string;
 type Address = [City, Street];
