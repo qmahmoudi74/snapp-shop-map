@@ -2,7 +2,7 @@ import { Box, Center } from "@chakra-ui/react";
 import Image from "next/image";
 import { FC } from "react";
 
-const _MapMarker: FC = () => {
+const MapMarker: FC = () => {
   return (
     <Center pos="absolute" inset={0} zIndex={9999} pointerEvents="none">
       <Box pos="relative">
@@ -17,4 +17,4 @@ const _MapMarker: FC = () => {
   );
 };
 
-export default _MapMarker;
+export default MapMarker;

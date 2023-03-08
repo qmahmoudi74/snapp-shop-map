@@ -1,11 +1,10 @@
 import { ColorModeScript } from "@chakra-ui/react";
 import { Head, Html, Main, NextScript } from "next/document";
-import Script from "next/script";
 import appTheme from "theme";
 
 const Document = () => {
   return (
-    <Html lang="fa-IR">
+    <Html lang="fa-IR" dir="rtl">
       <Head>
         <link
           rel="preload"
