@@ -1,13 +1,27 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { ColorModeScript } from "@chakra-ui/react";
+import { Head, Html, Main, NextScript } from "next/document";
+import appTheme from "theme";
 
-export default function Document() {
+const Document = () => {
   return (
-    <Html lang="en">
-      <Head />
+    <Html lang="fa-IR">
+      <Head>
+        <link
+          rel="preload"
+          href="/assets/fonts/Vazirmatn[wght].woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </Head>
+
       <body>
+        <ColorModeScript initialColorMode={appTheme.config.initialColorMode} />
         <Main />
         <NextScript />
       </body>
     </Html>
-  )
-}
+  );
+};
+
+export default Document;
