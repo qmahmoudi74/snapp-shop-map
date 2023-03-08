@@ -1,10 +1,13 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { AXIOS_TIME_OUT } from "utils/constants";
+import { BASE_URL } from "utils/constants";
 
-export const axiosIns = axios.create({ timeout: AXIOS_TIME_OUT });
+export const axiosIns = axios.create({
+  baseURL: BASE_URL,
+  timeout: 3 * 1000
+});
 
-const http = async <Response, Error>(config: AxiosRequestConfig) => {
-  return axiosIns.request<Response | Error>(config);
+const http = async <Response>(config: AxiosRequestConfig) => {
+  return (await axiosIns.request<Response>(config)).data;
 };
 
 export default http;

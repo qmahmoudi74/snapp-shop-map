@@ -1,9 +1,6 @@
 import type { NextApiHandler } from "next";
-import db from "db";
-
-type City = string;
-type Street = string;
-type Address = [City, Street];
+import database from "database.json";
+import { Address } from "pages/api/search/search-address";
 
 export interface IGetAddressResponse {
   address: Address;
@@ -14,25 +11,21 @@ export interface IGetAddressRequest {
   lng: number;
 }
 
-export interface IGetAddressError {
-  message: string;
-}
-
-const getAddressHandler: NextApiHandler<
-  IGetAddressResponse | IGetAddressError
-> = async ({ method, query }, res) => {
+const getAddressHandler: NextApiHandler<IGetAddressResponse> = async (
+  { method, query },
+  res
+) => {
   if (!["get", "GET"].includes(method ?? "")) {
-    res.status(405).send({ message: "method not allowed!" });
+    res.status(405);
   } else if (!query.lat || !query.lng) {
-    res.status(400).send({ message: "lat and lng must be send!" });
+    res.status(400);
   } else {
     setTimeout(() => {
-      const { city, street } =
-        db.find(({ lat, lng }) => query.lat === lat && query.lng === lng) ?? {};
+      const address = database[Math.trunc(Math.random() * 100)];
 
-      if (!city || !street) res.status(404).send({ message: "not found!" });
-      else res.status(200).json({ address: [city, street] });
-    }, 150);
+      if (!address) res.status(404);
+      else res.status(200).json({ address });
+    }, 300);
   }
 };
 

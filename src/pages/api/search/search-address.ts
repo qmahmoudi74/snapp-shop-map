@@ -1,33 +1,40 @@
 import type { NextApiHandler } from "next";
-import db from "db";
+import database from "database.json";
 
-export interface IGetSearchAddressResponse {
+export interface Address {
+  id: string;
+  city: string;
+  street: string;
   lat: number;
   lng: number;
+}
+
+export interface IGetSearchAddressResponse {
+  result: Address[];
 }
 
 export interface IGetSearchAddressRequest {
   address: string;
 }
 
-export interface IGetSearchAddressError {
-  message: string;
-}
-
-const searchAddressHandler: NextApiHandler<
-  IGetSearchAddressResponse | IGetSearchAddressError
-> = async ({ method, query }, res) => {
+const searchAddressHandler: NextApiHandler<IGetSearchAddressResponse> = async (
+  { method, query },
+  res
+) => {
   if (!["get", "GET"].includes(method ?? "")) {
-    res.status(405).send({ message: "method not allowed!" });
+    res.status(405);
   } else if (!query.address) {
-    res.status(400).send({ message: "address must be send!" });
+    res.status(400);
   } else {
     setTimeout(() => {
-      const { lat, lng } = db.find(({ city }) => query.address === city) ?? {};
+      const result =
+        database
+          .filter(({ id }) => id.includes(query.address as string))
+          .splice(0, 10) ?? [];
 
-      if (!lat || !lng) res.status(404).send({ message: "not found!" });
-      else res.status(200).json({ lat: Number(lat), lng: Number(lng) });
-    }, 150);
+      if (!result.length) res.status(404);
+      else res.status(200).json({ result });
+    }, 300);
   }
 };
 
